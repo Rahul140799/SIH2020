@@ -1,0 +1,85 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "essential": true,
+            "image": "mongo",
+            "memory": 128,
+            "mountPoints": [
+                {
+                    "containerPath": "/data/lib/",
+                    "sourceVolume": "Mongo_Store"
+                }
+            ],
+            "name": "db",
+            "portMappings": [
+                {
+                    "containerPort": 27017,
+                    "hostPort": 27017
+                }
+            ]
+        },
+        {
+            "essential": true,
+            "name": "flask",
+            "memory": 128,
+            "image": "jayvishaalj/scribeplus",
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 5000
+                },
+                {
+                    "containerPort": 5001,
+                    "hostPort": 5001
+                }
+            ]
+        },
+        {
+            "essential": true,
+            "name": "ganache",
+            "memory": 128,
+            "image": "jayvishaalj/ganache",
+            "portMappings": [
+                {
+                    "containerPort": 8545,
+                    "hostPort": 8545
+                }
+            ]
+        },
+        {
+            "command": [
+                "nodemon",
+                "-L",
+                "--ignore",
+                "build/*.json",
+                "app.js"
+            ],
+            "essential": true,
+            "name": "nodeserver",
+            "memory": 128,
+            "image": "jayvishaalj/testrepo",
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 3000
+                }
+            ]
+        }
+    ],
+    "family": "",
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "mongo_store"
+            },
+            "name": "Mongo_Store"
+        },
+        {
+            "host": {
+                "sourcePath": "/usr/src/app/node_server/"
+            },
+            "name": "SihNode_Server"
+        }
+    ]
+}

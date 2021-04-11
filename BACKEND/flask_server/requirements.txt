@@ -1,0 +1,7 @@
+Flask
+flask-socketio
+gevent-websocket
+python-engineio
+requests
+spacy
+scispacy

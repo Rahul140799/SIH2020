@@ -1,0 +1,33 @@
+version: "3"
+services: 
+    ganache:
+        image: repo.treescale.com/jayvishaalj/scribe-ganache
+        ports: 
+            - "8545:8545"
+    
+    db:
+        image: mongo
+        ports: 
+            - "27017:27017"
+        volumes:
+            - mongo_store:/data/lib/
+    
+    flask:
+        image: repo.treescale.com/jayvishaalj/scribe-flask-server
+        ports: 
+            - "5000:5000"
+    
+    nodeserver:
+        image: repo.treescale.com/jayvishaalj/scribe-node-server
+        ports: 
+            - "3000:3000"
+        depends_on: 
+            - ganache
+            - db
+            - flask
+        volumes: 
+            - logStore:/usr/src/app/
+
+volumes: 
+    mongo_store:
+    logStore:
